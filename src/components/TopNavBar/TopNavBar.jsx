@@ -59,7 +59,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
     <>
       <div className="navbar">
         <div className="logo">
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+          <Link to="/home" style={{ textDecoration: "none", color: "white" }}>
             {"InceptiveBI"}
           </Link>
         </div>

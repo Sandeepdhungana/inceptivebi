@@ -16,7 +16,6 @@ export const chat = createAsyncThunk(
       const { message: reply } = data;
       return reply;
     } catch (error) {
-      console.error("Error Sending message: ", error);
       return rejectWithValue(error.message);
     }
   }

@@ -43,7 +43,6 @@ const Login = () => {
     const result = LoginSchema.safeParse(formData);
 
     if (result.success) {
-      console.log("Form Data:", formData);
       dispatch(login(formData));
       setErrors({});
       setIsSubmitted(true);
