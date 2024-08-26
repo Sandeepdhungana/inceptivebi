@@ -19,9 +19,7 @@ import DataModelling from "./screens/DataModelling/DataModelling";
 const App = () => {
   const [currentUrl, setCurrentUrl] = useState("");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserDetails());
-  }, []);
+  
 
   const handleMenuClick = (url) => {
     setCurrentUrl(url);

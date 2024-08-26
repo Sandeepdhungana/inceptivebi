@@ -59,7 +59,6 @@ const SignUp = () => {
     const result = SignUpSchema.safeParse(formData);
 
     if (result.success) {
-      console.log("Form Data:", formData);
       dispatch(register(formData));
       setErrors({});
       setIsSubmitted(true);
