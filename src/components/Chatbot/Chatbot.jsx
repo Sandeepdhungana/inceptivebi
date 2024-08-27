@@ -19,7 +19,6 @@ export default function Chatbot() {
 
   
   function parseMessage(text) {
-    console.log("Inside of parse Message", text)
     if (text) {
       const urlPatternExists = /\[\[(.*?)\]\]/.test(text);
       const listPatternExists = /\(\[(.*?)\]\)/.test(text);

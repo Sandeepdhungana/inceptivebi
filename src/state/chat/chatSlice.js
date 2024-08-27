@@ -1,22 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { url } from "../../url";
+import { api } from "../../service";
 
 export const chat = createAsyncThunk(
   "chat/chat",
   async ({ message }, { rejectWithValue }) => {
-    if (!message) return;
-
+    if (!message) {
+      return rejectWithValue("Message is required");
+   }
     try {
-      const response = await axios.post($`${url}/api/chat`, {
+      const response = await api.post(`/chat`, {
         message: message,
       });
 
       const { data } = response;
       const { message: reply } = data;
       return reply;
-    } catch (error) {
-      return rejectWithValue(error.message);
+    } catch (err) {
+      console.log(err)
+      return rejectWithValue(err.message);
     }
   }
 );
