@@ -34,12 +34,12 @@ const TopNavBar = ({ children, onMenuClick }) => {
 
   const menuItems = [
     {
-      label: "Data Visualization",
-      url: "/data-visualization",
+      label: "iStudio",
+      url: "/studio",
       showIframe: false,
     },
     {
-      label: "Data Modeling",
+      label: "iBuilder",
       children: [
         {
           label: "iBuilder Engine",

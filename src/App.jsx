@@ -39,7 +39,7 @@ const App = () => {
           }
         />
         <Route
-          path="/data-visualization"
+          path="/studio"
           element={
             <ProtectedRoute>
               <TopNavBar>
