@@ -8,10 +8,20 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.navbar .logo {
-  font-size: 24px;
-  font-weight: 300;
+/* .navbar .logo {
   color: #fff;
+} */
+
+.logo-image {
+  width: 200px;
+}
+
+.menu-icon {
+  height: 20px;
+  object-fit: cover;
+}
+.istudio {
+  height: 25px;
 }
 
 .menu-items {

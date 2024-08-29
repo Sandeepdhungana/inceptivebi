@@ -21,33 +21,30 @@ const TopNavBar = ({ children, onMenuClick }) => {
     setShowDropdown(false);
   };
 
-  const handleMenuClick = (url, showIframe, newTab) => {
-    if (newTab) {
-      window.open(url, "_blank");
-    } else if (showIframe) {
+  const handleMenuClick = (url, showIframe) => {
+    if (showIframe) {
       navigate("/data-modelling", { state: { iframeUrl: url, environment } });
     } else {
       navigate(url);
     }
   };
 
-  // const handleEnvironmentChange = (value) => {
-  //   setEnvironment(value);
-  // };
+  const handleEnvironmentChange = (value) => {
+    setEnvironment(value);
+  };
 
   const menuItems = [
     {
-      label: <img src={istudio} alt="iStudio" className="menu-icon istuido" />,
+      label: <img src={istudio} alt="iStudio" className="menu-icon" />,
       url: "/studio",
-      newTab: true,
+      showIframe: false,
     },
     {
-      label: <img src={ibuilder} alt="iBuilder" className="menu-icon ibuilder" />,
+      label: <img src={ibuilder} alt="iBuilder" className="menu-icon" />,
       children: [
         {
-          label: "iBuilder Cube",
+          label: "iBuilder Engine",
           url: "https://cloud.cube.dev",
-          newTab: true,
           showIframe: true,
         },
         {
@@ -78,7 +75,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
               >
                 <button
                   onClick={() =>
-                    !item.children && handleMenuClick(item.url, item.showIframe, item.newTab)
+                    !item.children && handleMenuClick(item.url, item.showIframe)
                   }
                 >
                   {item.label}
@@ -89,7 +86,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
                       <button
                         key={idx}
                         onClick={() =>
-                          handleMenuClick(child.url, child.showIframe, child.newTab)
+                          handleMenuClick(child.url, child.showIframe)
                         }
                       >
                         {child.label}
