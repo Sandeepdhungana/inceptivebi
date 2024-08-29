@@ -38,7 +38,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
   const menuItems = [
     {
       label: <img src={istudio} alt="iStudio" className="menu-icon istuido" />,
-      url: "/studio",
+      url: "https://manage.app.preset.io/app/",
       newTab: true,
     },
     {
@@ -46,7 +46,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
       children: [
         {
           label: "iBuilder Cube",
-          url: "https://cloud.cube.dev",
+          url: "https://cogss.cubecloud.dev/",
           newTab: true,
           showIframe: true,
         },
