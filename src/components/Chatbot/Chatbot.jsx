@@ -12,12 +12,12 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const conversationEndRef = useRef(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
   };
 
-  
   function parseMessage(text) {
     if (text) {
       const urlPatternExists = /\[\[(.*?)\]\]/.test(text);
@@ -39,7 +39,7 @@ export default function Chatbot() {
           </>
         );
       } else if (listPatternExists) {
-        const listRegex = /\(\[(.*?)\]\)/
+        const listRegex = /\(\[(.*?)\]\)/;
         const textRegex = /^(.*?)\s*\([^)]*\)/;
 
         const urlMatch = text.match(listRegex);
@@ -62,7 +62,7 @@ export default function Chatbot() {
         return text;
       }
     }
-    return text
+    return text;
   }
 
   useEffect(() => {
@@ -80,14 +80,92 @@ export default function Chatbot() {
       setMessages([...messages, { message: input, sender: "user" }]);
       setInput("");
       setIsTyping(true);
-      dispatch(chat({ message: input }));
+
+      if (input.toLowerCase().includes("provide the elements")) {
+        setTimeout(() => {
+          const response = {
+            message: (
+              <>
+                Certainly, I shall assist you with this
+                <ul>
+                  <li>
+                    Database/Dataset:{" "}
+                    <a
+                      href="https://superset.edtechmarks.com/explore/?datasource_type=table&datasource_id=18"
+                      target="_blank"
+                    >
+                      {" "}
+                      TermAid-Report_API_Main_SAP_qry
+                    </a>
+                  </li>
+                  <li>
+                    Charts:{" "}
+                    <>
+                      <a href="https://superset.edtechmarks.com/explore/?slice_id=3">
+                        TermAid-Report_API_Crosstab1
+                      </a>
+                    </>
+                    ,<br /> 
+                    <a href="https://superset.edtechmarks.com/explore/?slice_id=2">
+                      TermAid-Report_API_Combination Chart2
+                    </a>
+                    ,<br /> 
+                    <a href="https://superset.edtechmarks.com/explore/?slice_id=1">
+                      TermAid-Report_API_List1
+                    </a>
+                  </li>
+                  <li>
+                    Dashboard:{" "}
+                    <a href="https://superset.edtechmarks.com/superset/dashboard/1/">
+                      Dashboard
+                    </a>
+                  </li>
+                </ul>
+                Is this information useful?{" "}
+                <button
+                  className="chat-btn"
+                  onClick={() => handleConfirmation(true)}
+                >
+                  Yes
+                </button>{" "}
+                <button
+                  className="chat-btn"
+                  onClick={() => handleConfirmation(false)}
+                >
+                  No
+                </button>
+              </>
+            ),
+            sender: "bot",
+          };
+          setMessages((prevMessages) => [...prevMessages, response]);
+          setIsTyping(false);
+          setShowConfirmation(true);
+        }, 5000);
+      } else {
+        dispatch(chat({ message: input }));
+      }
     }
   };
+
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSendMessage();
     }
+  };
+
+  const handleConfirmation = (isYes) => {
+    setShowConfirmation(false);
+    const response = {
+      message: isYes
+        ? "Glad I was of help to you"
+        : "Thank you for your feedback.",
+      sender: "bot",
+    };
+    setTimeout(() => {
+      setMessages((prevMessages) => [...prevMessages, response]);
+    }, 100);
   };
 
   useEffect(() => {
@@ -111,10 +189,7 @@ export default function Chatbot() {
             {messages.map((msg, index) => (
               <div key={index} className={`message-row ${msg.sender}`}>
                 {msg.sender === "bot" && <div className="avatar bot">🤖</div>}
-                <div className={`message ${msg.sender}`}>
-                  {/* {parseMessage(msg.message)} */}
-                  {msg.message}
-                </div>
+                <div className={`message ${msg.sender}`}>{msg.message}</div>
                 {msg.sender === "user" && <div className="avatar user">😀</div>}
               </div>
             ))}

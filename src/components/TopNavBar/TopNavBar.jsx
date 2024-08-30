@@ -45,13 +45,13 @@ const TopNavBar = ({ children, onMenuClick }) => {
       label: <img src={ibuilder} alt="iBuilder" className="menu-icon ibuilder" />,
       children: [
         {
-          label: "iBuilder Cube",
+          label: "Semantic Layer",
           url: "https://cogss.cubecloud.dev/",
           newTab: true,
           showIframe: true,
         },
         {
-          label: "iBuilder Model Management",
+          label: "Model Builder",
           url: "http://44.204.61.35:5000",
           showIframe: true,
         },

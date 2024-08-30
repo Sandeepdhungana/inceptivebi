@@ -8,6 +8,13 @@
   align-items: flex-end;
 }
 
+.chat-btn {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: white;
+  outline: none;
+}
+
 .chatbot-icon {
   background-color: #007bff;
   color: white;
@@ -152,6 +159,15 @@
   padding: 10px;
   border-top: 1px solid #ddd;
   background-color: #f9f9f9;
+}
+
+.chat-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .input-area input {
