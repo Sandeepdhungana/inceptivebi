@@ -13,6 +13,7 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
   const conversationEndRef = useRef(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -82,6 +83,7 @@ export default function Chatbot() {
       setIsTyping(true);
 
       if (input.toLowerCase().includes("provide the elements")) {
+        setProcessing(true);
         setTimeout(() => {
           const response = {
             message: (
@@ -105,11 +107,11 @@ export default function Chatbot() {
                         TermAid-Report_API_Crosstab1
                       </a>
                     </>
-                    ,<br /> 
+                    ,<br />
                     <a href="https://superset.edtechmarks.com/explore/?slice_id=2">
                       TermAid-Report_API_Combination Chart2
                     </a>
-                    ,<br /> 
+                    ,<br />
                     <a href="https://superset.edtechmarks.com/explore/?slice_id=1">
                       TermAid-Report_API_List1
                     </a>
@@ -141,13 +143,13 @@ export default function Chatbot() {
           setMessages((prevMessages) => [...prevMessages, response]);
           setIsTyping(false);
           setShowConfirmation(true);
+          setProcessing(false);
         }, 5000);
       } else {
         dispatch(chat({ message: input }));
       }
     }
   };
-
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -193,7 +195,7 @@ export default function Chatbot() {
                 {msg.sender === "user" && <div className="avatar user">😀</div>}
               </div>
             ))}
-            {status === "loading" && (
+            {(status === "loading" || processing) && (
               <div className="message-row bot">
                 <div className="avatar bot">🤖</div>
                 <div className="message bot typing-indicator">
