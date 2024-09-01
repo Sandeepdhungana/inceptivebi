@@ -48,12 +48,11 @@ const TopNavBar = ({ children, onMenuClick }) => {
           label: "Semantic Layer",
           url: "https://cogss.cubecloud.dev/",
           newTab: true,
-          showIframe: true,
         },
         {
           label: "Model Builder",
           url: "http://44.204.61.35:5000",
-          showIframe: true,
+          newTab:true
         },
       ],
     },
