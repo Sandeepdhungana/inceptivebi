@@ -30,8 +30,10 @@ const HomeScreen = ({ menuClicked }) => {
       <Chatbot />
       {!menuClicked && (
         <>
-          <WelcomeBar />
-          <HomeInfo />
+          <div className="home-info-container">
+            <div><WelcomeBar /></div>
+            <div className="homeinfo"><HomeInfo /></div>
+          </div>
         </>
       )}
     </div>

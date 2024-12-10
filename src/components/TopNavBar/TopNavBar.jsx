@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import "./TopNavBar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Select } from "antd";
 import logo from "../../assets/logo.png";
 import istudio from "../../assets/istudio.png";
 import ibuilder from "../../assets/ibuilder.png";
-
-const { Option } = Select;
+import { RiArrowDownWideLine } from "react-icons/ri";
 
 const TopNavBar = ({ children, onMenuClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [environment, setEnvironment] = useState("prod");
   const navigate = useNavigate();
 
   const handleMouseEnter = () => {
@@ -25,24 +22,25 @@ const TopNavBar = ({ children, onMenuClick }) => {
     if (newTab) {
       window.open(url, "_blank");
     } else if (showIframe) {
-      navigate("/data-modelling", { state: { iframeUrl: url, environment } });
+      navigate("/data-modelling", { state: { iframeUrl: url } });
     } else {
       navigate(url);
     }
   };
 
-  // const handleEnvironmentChange = (value) => {
-  //   setEnvironment(value);
-  // };
-
   const menuItems = [
     {
-      label: <img src={istudio} alt="iStudio" className="menu-icon istuido" />,
+      label: <img src={istudio} alt="iStudio" className="menu-icon istudio" />,
       url: "https://manage.app.preset.io/app/",
       newTab: true,
     },
     {
-      label: <img src={ibuilder} alt="iBuilder" className="menu-icon ibuilder" />,
+      label: (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <img src={ibuilder} alt="iBuilder" className="menu-icon ibuilder" />
+          <RiArrowDownWideLine  style={{ marginLeft: "10px", fontSize: "20px" }} />
+        </div>
+      ),
       children: [
         {
           label: "Semantic Layer",
@@ -63,7 +61,12 @@ const TopNavBar = ({ children, onMenuClick }) => {
       <div className="navbar">
         <div className="logo">
           <Link to="/home" style={{ textDecoration: "none" }}>
-            <img src={logo} alt="InceptiveBI Logo" className="logo-image" />
+            <img
+              src={logo}
+              alt="InceptiveBI Logo"
+              className="logo-image"
+              style={{ width: "150px" }}
+            />
           </Link>
         </div>
         <div className="left-menu">
@@ -76,6 +79,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
                 onMouseLeave={item.children ? handleMouseLeave : null}
               >
                 <button
+                  className="nav-button"
                   onClick={() =>
                     !item.children && handleMenuClick(item.url, item.showIframe, item.newTab)
                   }
@@ -87,6 +91,7 @@ const TopNavBar = ({ children, onMenuClick }) => {
                     {item.children.map((child, idx) => (
                       <button
                         key={idx}
+                        className="dropdown-button"
                         onClick={() =>
                           handleMenuClick(child.url, child.showIframe, child.newTab)
                         }

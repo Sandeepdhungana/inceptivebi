@@ -1,6 +1,7 @@
 import React from "react";
-import LastLoggedIn from "../LastLoggedIn/LastLoggedIn";
+// import LastLoggedIn from "../LastLoggedIn/LastLoggedIn";
 import LastReportsAccessed from "../LastReport/LastReport";
+import Announcements from "../Announcements/announcements";
 
 const Dashboard = () => {
   const lastLoggedIn = new Date(); // Replace with actual date/time
@@ -11,9 +12,9 @@ const Dashboard = () => {
   ];
 
   return (
-    <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
-      <LastLoggedIn lastLoggedIn={lastLoggedIn} />
+    <div style={{ display: "flex", gap: "20px", padding: "20px", justifyContent:"center" }}>
       <LastReportsAccessed reports={reports} />
+      <Announcements />
     </div>
   );
 };

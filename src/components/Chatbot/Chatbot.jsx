@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Chatbot.css";
 import { useDispatch, useSelector } from "react-redux";
 import { chat } from "../../state/chat/chatSlice";
+import chatIcon from "../../assets/chat-icon.svg";
+import Cross from "../../assets/cross.svg"; 
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,64 +14,15 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const conversationEndRef = useRef(null);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [processing, setProcessing] = useState(false);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
   };
 
-  function parseMessage(text) {
-    if (text) {
-      const urlPatternExists = /\[\[(.*?)\]\]/.test(text);
-      const listPatternExists = /\(\[(.*?)\]\)/.test(text);
-
-      if (urlPatternExists) {
-        const urlRegex = /\[\[(.*?)\]\]/;
-        const textRegex = /^(.*?)\s*\[\[.*?\]\]/;
-
-        const urlMatch = text.match(urlRegex);
-        const url = urlMatch ? urlMatch[1] : "No URL found";
-
-        const textMatch = text.match(textRegex);
-        const regularText = textMatch ? textMatch[1] : text;
-
-        return (
-          <>
-            {regularText} <a href={`mailto:${url}`}>{url}</a>
-          </>
-        );
-      } else if (listPatternExists) {
-        const listRegex = /\(\[(.*?)\]\)/;
-        const textRegex = /^(.*?)\s*\([^)]*\)/;
-
-        const urlMatch = text.match(listRegex);
-        const list = urlMatch ? urlMatch[1].split(",") : [];
-
-        const textMatch = text.match(textRegex);
-        const regularText = textMatch ? textMatch[1] : text;
-
-        return (
-          <>
-            {regularText}
-            <ul>
-              {list.map((item, index) => (
-                <li key={index}> {item}</li>
-              ))}
-            </ul>
-          </>
-        );
-      } else {
-        return text;
-      }
-    }
-    return text;
-  }
-
   useEffect(() => {
     if (botMessage) {
       const newMessages = botMessage.map((msg) => ({
-        message: parseMessage(msg.content),
+        message: msg.content,
         sender: "bot",
       }));
       setMessages((prevMessages) => [...prevMessages, ...newMessages]);
@@ -82,72 +35,10 @@ export default function Chatbot() {
       setInput("");
       setIsTyping(true);
 
-      if (input.toLowerCase().includes("provide the elements")) {
-        setProcessing(true);
-        setTimeout(() => {
-          const response = {
-            message: (
-              <>
-                Certainly, I shall assist you with this
-                <ul>
-                  <li>
-                    Database/Dataset:{" "}
-                    <a
-                      href="https://superset.edtechmarks.com/explore/?datasource_type=table&datasource_id=18"
-                      target="_blank"
-                    >
-                      {" "}
-                      TermAid-Report_API_Main_SAP_qry
-                    </a>
-                  </li>
-                  <li>
-                    Charts:{" "}
-                    <>
-                      <a href="https://superset.edtechmarks.com/explore/?slice_id=3">
-                        TermAid-Report_API_Crosstab1
-                      </a>
-                    </>
-                    ,<br />
-                    <a href="https://superset.edtechmarks.com/explore/?slice_id=2">
-                      TermAid-Report_API_Combination Chart2
-                    </a>
-                    ,<br />
-                    <a href="https://superset.edtechmarks.com/explore/?slice_id=1">
-                      TermAid-Report_API_List1
-                    </a>
-                  </li>
-                  <li>
-                    Dashboard:{" "}
-                    <a href="https://superset.edtechmarks.com/superset/dashboard/1/">
-                      Dashboard
-                    </a>
-                  </li>
-                </ul>
-                Is this information useful?{" "}
-                <button
-                  className="chat-btn"
-                  onClick={() => handleConfirmation(true)}
-                >
-                  Yes
-                </button>{" "}
-                <button
-                  className="chat-btn"
-                  onClick={() => handleConfirmation(false)}
-                >
-                  No
-                </button>
-              </>
-            ),
-            sender: "bot",
-          };
-          setMessages((prevMessages) => [...prevMessages, response]);
-          setIsTyping(false);
-          setShowConfirmation(true);
-          setProcessing(false);
-        }, 5000);
-      } else {
+      setTimeout(() => {
         dispatch(chat({ message: input }));
-      }
+        setIsTyping(false);
+      }, 500);
     }
   };
 
@@ -155,19 +46,6 @@ export default function Chatbot() {
     if (event.key === "Enter") {
       handleSendMessage();
     }
-  };
-
-  const handleConfirmation = (isYes) => {
-    setShowConfirmation(false);
-    const response = {
-      message: isYes
-        ? "Glad I was of help to you"
-        : "Thank you for your feedback.",
-      sender: "bot",
-    };
-    setTimeout(() => {
-      setMessages((prevMessages) => [...prevMessages, response]);
-    }, 100);
   };
 
   useEffect(() => {
@@ -180,24 +58,25 @@ export default function Chatbot() {
         className={`chatbot-icon ${isOpen ? "open" : ""}`}
         onClick={toggleChat}
       >
-        {isOpen ? "✖" : "💬"}
+         {isOpen ? "✖" : <img src={chatIcon} alt="Chat Icon" className="icon-img" />}
+        
       </div>
       {isOpen && (
         <div className="chatbot-window">
           <div className="chatbot-header">
-            <h3>InceptiveBI Bot</h3>
+            <img src={Cross} alt="close" onClick={toggleChat} />
           </div>
           <div className="conversation">
             {messages.map((msg, index) => (
               <div key={index} className={`message-row ${msg.sender}`}>
-                {msg.sender === "bot" && <div className="avatar bot">🤖</div>}
+                {msg.sender === "bot" && <div className="avatar bot"><img src={chatIcon} alt="Chat Icon" className="icon-img" /></div>}
                 <div className={`message ${msg.sender}`}>{msg.message}</div>
-                {msg.sender === "user" && <div className="avatar user">😀</div>}
+                {msg.sender === "user" && <div className="avatar user">G</div>}
               </div>
             ))}
-            {(status === "loading" || processing) && (
+            {(status === "loading" || isTyping) && (
               <div className="message-row bot">
-                <div className="avatar bot">🤖</div>
+                <div className="avatar bot"><img src={chatIcon} alt="Chat Icon" className="icon-img" /></div>
                 <div className="message bot typing-indicator">
                   <span className="dot"></span>
                   <span className="dot"></span>
@@ -210,7 +89,7 @@ export default function Chatbot() {
           <div className="input-area">
             <input
               type="text"
-              placeholder="Type a message..."
+              placeholder="Type Something..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
